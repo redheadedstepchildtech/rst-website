@@ -7,12 +7,13 @@ export const metadata = {
   description: "Building tools that help real people.",
 };
 
-export default function RootLayout({ children }) {
+import type { ReactNode } from "react";
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className="bg-gray-50">
-        <NavBar />
-        <main className="pt-10">{children}</main>
+        {children}
       </body>
     </html>
   );
