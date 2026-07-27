@@ -1,0 +1,44 @@
+{
+  "summary": "Re-tested contact form success flow through the public preview URL after the FastAPI /api/* proxy fix. The proxy fix itself works: direct curl POST to https://<preview>/api/contact returns HTTP 200 with a Resend id, and a fetch() invoked from the browser's DevTools context on the /contact page also returns 200. HOWEVER, the end-to-end UI flow still FAILS. Root cause is now different from iteration 1: React never hydrates the /contact page client component in the dev-server preview environment. The <form> DOM node has no __reactProps / __reactFiber attached (30s+ wait), so onSubmit={handleSubmit} is never bound. When 'Send message' is clicked, the browser performs a native HTML form GET submission (URL becomes /contact?) and the page reloads without ever calling /api/contact. Regression checks pass: all 4 pages load 200 with correct H1s and nav-dreamfunnel is correct.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "app/contact/page.tsx (client component)",
+        "issue": "React client hydration does not complete on the /contact page in the dev-server preview environment. The <form data-testid='contact-form'> node has no __reactProps / __reactFiber keys after 30s+, TURBOPACK_CHUNK_LISTS is undefined on window, and no JS console errors are emitted. Because the onSubmit handler is never attached, clicking the submit button performs a native HTML form GET submission (page becomes /contact?) instead of calling handleSubmit — /api/contact is never POSTed from the UI and contact-success never renders. Verified /api/contact itself is reachable and returns 200 (id from Resend) when called via fetch() from the same browser page.",
+        "selector": "[data-testid=\"contact-form\"], [data-testid=\"contact-submit\"], [data-testid=\"contact-success\"]",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Contact form success via preview URL",
+        "issue": "API layer works (POST /api/contact through the new port 8001 proxy returns 200 with Resend id, confirmed via curl AND via page.evaluate(fetch(...)) in the browser). UI layer fails because React never hydrates in the dev preview: clicking contact-submit falls back to native form GET to /contact? and neither contact-success nor contact-error ever appears.",
+        "affected_selectors": ["[data-testid=\"contact-submit\"]", "[data-testid=\"contact-success\"]", "[data-testid=\"contact-error\"]", "[data-testid=\"contact-reset\"]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/tests/frontend_e2e_test.py"],
+  "action_items": [
+    "Investigate Turbopack dev hydration through the Emergent preview URL. Symptoms: TURBOPACK_CHUNK_LISTS is undefined on window; form element has no React fiber/props keys after 30s. The chunk HTML tags (app_contact_page_tsx_*.js and _0za6xir._.js) are present in the initial HTML and each 200s via curl, but the runtime never wires them up client-side. No JS console error is emitted.",
+    "Try one or more of: (a) run a production build in the preview (`next build && next start -p 3000`) instead of `next dev`; production bundling avoids Turbopack dev chunk loader and typically hydrates reliably behind proxies. (b) Add the exact preview host currently seen by Next to allowedDevOrigins — the frontend log still shows a blocked cross-origin warning for `b562bf12-...cluster-12.preview.emergentcf.cloud`, which is not in /app/next.config.ts (only `preview.emergentagent.com` is). Add both hosts. (c) Verify Next dev is not blocking non-same-origin dev asset execution by inspecting response headers on _next/static/chunks/*.js (currently 200, but perhaps Next dev sends a header that the browser rejects when the parent origin differs).",
+    "Reset button (contact-reset) could not be re-verified because the success screen never renders. Once hydration is fixed, re-run to confirm it clears name/email/message state.",
+    "Cosmetic: HMR websocket 502s continue in dev console; unrelated to failure but noisy. Will not occur on Vercel."
+  ],
+  "critical_code_review_comments": [
+    "Contact form has no client-side email pattern validation beyond HTML5 type=email; consider mirroring the server-side EMAIL_REGEX for immediate feedback.",
+    "No client rate limiting / debouncing on the submit button beyond the `sending` flag; a very fast double-click before setSending resolves could double-post (minor)."
+  ],
+  "updated_files": ["/app/test_reports/iteration_2.json"],
+  "success_rate": {"backend": "N/A (skipped per request; POST /api/contact via preview URL returns 200 with Resend id)", "frontend": "60% (4/4 pages load, nav-dreamfunnel OK, contact API reachable from browser context, but contact form UI submit path FAILS due to non-hydration)"},
+  "seed_data_creation": "Sent 3 real test emails via Resend sandbox during retesting (browser-eval fetch + two curl POSTs).",
+  "should_call_test_agent_after_fix": true,
+  "should_main_agent_self_test": false,
+  "test_credentials": "N/A - public marketing site",
+  "context_for_next_testing_agent": "The FastAPI /api/* -> :3000 proxy fix on port 8001 works — POST /api/contact through the preview URL now returns 200 with a Resend id (confirmed by curl AND by fetch() executed inside the browser via page.evaluate). The remaining failure is client-side: React does not hydrate the /contact page in the dev-server preview. Signals: (1) window.React is undefined, TURBOPACK_CHUNK_LISTS is undefined, (2) the <form data-testid='contact-form'> element has keys ['0','1','2','3'] only — no __reactProps$/__reactFiber$, (3) clicking contact-submit navigates to /contact? via native GET, (4) no JS console errors are emitted, (5) HMR websocket returns 502 (cosmetic). All static assets return 200 via curl. Suggest trying a production `next build && next start` in the preview or adding the `cluster-12.preview.emergentcf.cloud` host to allowedDevOrigins.",
+  "rca_of_the_issue": "Two-layer bug. Layer 1 (fixed in this iteration): /api/* returned 502 because Emergent preview routes /api/* to :8001 and the app is Next-only — a FastAPI proxy on :8001 forwarding to :3000 was added and now returns 200. Verified via curl and via page.evaluate(fetch('/api/contact')). Layer 2 (new, not fixed): React client bundle does not hydrate the /contact page in the dev preview. Chunk HTML script tags are present and each JS file returns 200, but at runtime TURBOPACK_CHUNK_LISTS is undefined and the form node has no React fiber/props. Consequence: onSubmit={handleSubmit} is never attached, so the submit button triggers a native HTML form submission (GET /contact?) instead of the fetch-based flow. This is a dev-environment / Turbopack chunk-loader issue behind the preview proxy and will very likely not occur in a Vercel production build."
+}
