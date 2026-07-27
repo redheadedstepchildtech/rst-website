@@ -35,10 +35,23 @@ Dream Funnel (https://dreamfunnel.net).
 
 ## Next Action Items
 - Push the redesign to GitHub (`Save to GitHub`) so Vercel auto-deploys the new version.
-- (Optional) Wire the contact form to a real backend/email (currently client-side only —
-  shows a success state but does not send/store the message).
-- (Optional) Add real Dream Funnel screenshots/logo, favicon, and OG/social meta images.
-- (Optional) Rotate the GitHub token embedded in the git remote URL for security.
+- On Vercel, add env vars: RESEND_API_KEY, SENDER_EMAIL, CONTACT_TO_EMAIL (they live in
+  `/app/.env.local` which is gitignored and will NOT be pushed).
+- Verify domain `redheadedstepchildtech.com` at resend.com/domains, then set
+  SENDER_EMAIL=noreply@redheadedstepchildtech.com and CONTACT_TO_EMAIL=admin@redheadedstepchildtech.com
+  to deliver to the real inbox (currently sandbox-limited).
+
+## Email / Contact (added 2026-06)
+- Resend integration via Next.js Route Handler `app/api/contact/route.ts` (Node `resend` SDK).
+- Contact form now POSTs to /api/contact with sending + error states; verified working
+  (HTTP 200, email id returned).
+- SANDBOX LIMITATION: Resend test mode (from onboarding@resend.dev) only delivers to the
+  account owner's email. CONTACT_TO_EMAIL is temporarily set to the owner's verified address
+  (monidabusiness@proton.me) so the form works today. Displayed contact email is
+  admin@redheadedstepchildtech.com. Domain verification needed to deliver there.
+- Branding: generated favicon (`app/icon.jpeg`) + social share image
+  (`app/opengraph-image.jpeg` / `twitter-image.jpeg`). Metadata tagline:
+  "Boldly go where no software system has gone before."
 
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.

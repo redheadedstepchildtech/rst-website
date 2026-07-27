@@ -1,16 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send, Rocket, CheckCircle2 } from "lucide-react";
+import { Phone, Mail, MapPin, Send, Rocket, CheckCircle2, Loader2 } from "lucide-react";
 import { PHONE, EMAIL, LOCATION, DREAM_FUNNEL_URL, IMG } from "@/lib/site";
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setError("");
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send message.");
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -134,8 +151,29 @@ export default function ContactPage() {
                     data-testid="contact-input-message"
                   />
                 </div>
-                <button type="submit" className="btn-primary w-full justify-center" data-testid="contact-submit">
-                  <Send className="h-4 w-4" /> Send message
+                {error && (
+                  <div
+                    className="rounded-xl border border-crimson/40 bg-crimson/10 px-4 py-3 text-sm text-crimson"
+                    data-testid="contact-error"
+                  >
+                    {error}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="btn-primary w-full justify-center disabled:cursor-not-allowed disabled:opacity-60"
+                  data-testid="contact-submit"
+                >
+                  {sending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" /> Transmitting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" /> Send message
+                    </>
+                  )}
                 </button>
                 <p className="text-center text-xs text-mist">
                   We read every message. Thank you for trusting us.

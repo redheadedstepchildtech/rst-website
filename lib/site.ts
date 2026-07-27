@@ -1,6 +1,6 @@
 export const DREAM_FUNNEL_URL = "https://dreamfunnel.net";
 export const PHONE = "(406) 437-2008";
-export const EMAIL = "support@rsttech.com";
+export const EMAIL = "admin@redheadedstepchildtech.com";
 export const LOCATION = "Helena Valley, Montana";
 
 export const IMG = {

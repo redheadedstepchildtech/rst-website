@@ -13,9 +13,21 @@ const display = Chakra_Petch({
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata = {
+  metadataBase: new URL("https://redheadedstepchildtech.com"),
   title: "Redheaded Stepchild Tech — Mission Control",
   description:
-    "A Montana software lab building dignity-first, high-technology tools for people the world overlooked. Clean systems. Real impact.",
+    "Redheaded Stepchild Tech — boldly go where no software system has gone before. A Montana lab building dignity-first, high-technology tools.",
+  openGraph: {
+    title: "Redheaded Stepchild Tech",
+    description:
+      "Boldly go where no software system has gone before.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Redheaded Stepchild Tech",
+    description: "Boldly go where no software system has gone before.",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
