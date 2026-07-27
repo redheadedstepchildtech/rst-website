@@ -89,5 +89,13 @@ Dream Funnel (https://dreamfunnel.net).
   (`app/opengraph-image.jpeg` / `twitter-image.jpeg`). Metadata tagline:
   "Boldly go where no software system has gone before."
 
+## Spam guard (added 2026-06)
+- Honeypot field (`website`) hidden off-screen in `app/contact/page.tsx`; `app/api/contact/route.ts`
+  silently returns 200 with NO email when it's filled (bot). This is the reliable guard.
+- Best-effort in-memory rate limit (5 req / 10 min per IP) in the route. NOTE: process-local,
+  so unreliable on serverless/multi-worker (Vercel) — honeypot is the primary defense. For
+  robust rate limiting, add Upstash Redis later.
+- Verified iteration_5 (100%): real submissions succeed, honeypot hidden, reset works, pages 200.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.
