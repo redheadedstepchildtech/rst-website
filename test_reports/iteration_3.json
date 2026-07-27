@@ -1,0 +1,23 @@
+{
+  "summary": "Re-tested per iteration_2 handoff after switching preview to a production `next build && next start` (plus FastAPI /api/* proxy on :8001 and expanded allowedDevOrigins). All requested checks now PASS end-to-end through the public preview URL.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/tests/frontend_e2e_test.py"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Minor (carry-over, not blocking): no client-side email regex mirror of the server EMAIL_REGEX; only HTML5 type=email is used.",
+    "Minor: submit button relies solely on `sending` state flag; a very rapid double-click before setSending resolves could theoretically double-post."
+  ],
+  "updated_files": ["/app/test_reports/iteration_3.json"],
+  "success_rate": {"backend": "N/A (skipped per request)", "frontend": "100% (all 5 requested checks pass)"},
+  "seed_data_creation": "One real Resend sandbox email sent during e2e test (name='TEST QA', email='qa@example.test').",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": false,
+  "test_credentials": "N/A - public marketing site",
+  "context_for_next_testing_agent": "PRIMARY BUG FROM iteration_2 IS RESOLVED. Under the production build served via `next start` behind the :8001 FastAPI /api/* proxy, React hydration completes correctly on /contact (form element now has __reactFiber$ and __reactProps$ keys). Contact form submit -> POST /api/contact -> Resend returns 200 -> contact-success renders within seconds. contact-reset clears all three inputs. SPA client navigation (nav-link-home/systems/about/contact) works without full reload errors. All 4 pages return HTTP 200 with correct H1s ('High-technology tools for the people the world overlooked.', 'Systems & platforms', 'Built by people who\\'ve lived through broken systems.', 'Contact mission control'). All three Dream Funnel links (nav-dreamfunnel, hero-dreamfunnel, footer-dreamfunnel) have href='https://dreamfunnel.net' and target='_blank'.",
+  "rca_of_the_issue": "iteration_2 failure was caused by Turbopack dev-server client chunks not hydrating behind the Emergent preview proxy (TURBOPACK_CHUNK_LISTS undefined, no React fiber/props on the form element, resulting in native HTML form GET on submit). Switching the preview to a Next.js production build (`next build && next start`) removed the Turbopack dev chunk loader from the runtime; the standard production client bundle hydrates reliably behind the proxy. Combined with the FastAPI /api/* -> :3000 proxy (fixes /api/* 502) and additional preview hosts in allowedDevOrigins, the full contact flow now works end-to-end."
+}
