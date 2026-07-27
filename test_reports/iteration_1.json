@@ -1,0 +1,37 @@
+{
+  "summary": "Frontend e2e testing of the RST Tech Next.js marketing site. All 4 pages load (HTTP 200) with correct H1 content, navbar links route correctly, and all 8 Dream Funnel data-testid links exist with correct href (https://dreamfunnel.net), target=_blank, and rel=noopener noreferrer. Contact form UI validation works (empty submit blocked by HTML5 required). However, the contact form success flow FAILS when tested through the public preview URL because /api/contact returns HTTP 502 from Cloudflare. Root cause: this preview environment routes all /api/* requests to backend port 8001 (expected FastAPI), but this is a Next-only app that serves /api/contact from Next on port 3000. Direct localhost:3000 test of the endpoint returned HTTP 200 and Resend accepted the email (id b87b8e43-...), so the application code is correct and will work on Vercel.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Contact form submission via public preview URL",
+        "issue": "POST /api/contact via the preview URL returns 502 Bad Gateway (Cloudflare). Kubernetes ingress routes /api/* to backend port 8001, but this Next-only app serves the API route from Next on port 3000. On the public URL the UI stays on the form; neither contact-success nor contact-error appears within 20s. Direct test against localhost:3000 succeeds (HTTP 200, Resend email id returned), so the code is correct — this is a preview-env routing limitation. Will work correctly on Vercel.",
+        "affected_selectors": ["[data-testid=\"contact-submit\"]", "[data-testid=\"contact-success\"]", "[data-testid=\"contact-error\"]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/tests/frontend_e2e_test.py"],
+  "action_items": [
+    "No code changes needed for the app itself — the contact form works end-to-end on localhost (verified with curl POST returning {ok:true, id:...}) and will work on Vercel where Next.js handles all routing.",
+    "If the user wants /api/contact to be reachable through the Emergent preview URL, the preview ingress needs to route /api/* to port 3000 for this Next-only app, OR add a proxy on port 8001 that forwards to the Next server. Otherwise, verify on Vercel post-deploy.",
+    "Minor: HMR WebSocket errors (wss://.../_next/webpack-hmr 502) appear in dev console. Cosmetic only; does not affect production build on Vercel."
+  ],
+  "critical_code_review_comments": [
+    "Contact API (/app/app/api/contact/route.ts) does not validate email format; only checks presence. Consider stronger validation and length caps on all fields (name is capped to 120 and message to 5000, but email is not length-capped).",
+    "No rate limiting on /api/contact — could be abused to burn Resend quota / send spam. Consider adding basic IP or session-based rate limiting before production.",
+    "message content is inserted into HTML template via string interpolation. It is slice-capped but not HTML-escaped, so a message like </p><script>... could inject HTML into the delivered email. Recommend escaping user-supplied strings (name, email, message) before embedding in HTML."
+  ],
+  "updated_files": ["/app/tests/frontend_e2e_test.py", "/app/test_reports/iteration_1.json"],
+  "success_rate": {"backend": "N/A (skipped per request; Next API tested directly returns 200)", "frontend": "95% (contact form success not verifiable through preview URL due to env routing, but code works locally)"},
+  "seed_data_creation": "None. One real test email was sent via Resend sandbox with a QA payload (from local test).",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "N/A - public marketing site",
+  "context_for_next_testing_agent": "All static pages, navigation, and Dream Funnel external links are verified correct. The contact form UI + client code is correct; the /api/contact Next route works when hit at localhost:3000 (verified via curl: HTTP 200, Resend id returned). The only failure mode is that /api/* is not reachable through the Emergent preview URL because the ingress expects a FastAPI backend on port 8001, which does not exist in this Next-only app. On Vercel this will work natively. If retesting, either use localhost:3000 for the API call or ensure preview routing forwards /api/* to port 3000.",
+  "rca_of_the_issue": "Preview environment ingress rule maps /api/* -> port 8001 (FastAPI). This app is Next.js-only (no FastAPI); the /api/contact route is served by Next on port 3000. Therefore public POSTs to https://<preview>/api/contact hit an empty upstream and Cloudflare returns 502. Confirmed by: (1) curl to https://<preview>/api/contact returns HTTP 502; (2) curl to http://localhost:3000/api/contact returns HTTP 200 with {ok:true, id:...}; (3) no service listening on port 8001. Fix path: deploy to Vercel (intended target) where Next handles all requests, or reconfigure preview ingress to route /api/* to port 3000 for Next-only apps."
+}
