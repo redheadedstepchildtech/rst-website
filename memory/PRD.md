@@ -64,6 +64,19 @@ Dream Funnel (https://dreamfunnel.net).
 ## Next Action Items
 - Push to GitHub, then deploy on Vercel (steps above).
 
+## Auto-reply (added 2026-06)
+- `app/api/contact/route.ts` sends a branded auto-reply confirmation to the sender when
+  `AUTO_REPLY=true`. It is BEST-EFFORT / non-blocking: if Resend rejects it (sandbox or
+  unverified domain), it is logged and skipped so the main notification + form success are
+  unaffected. Verified in iteration_4 (100%). Auto-reply to real senders activates once the
+  domain is verified.
+- Env is fully env-driven: RESEND_API_KEY, SENDER_EMAIL, CONTACT_TO_EMAIL, AUTO_REPLY.
+
+## Domain verification -> production email config
+- Verify redheadedstepchildtech.com at resend.com/domains (add the DNS records Resend
+  provides). Once verified, set on Vercel (and preview .env.local):
+  SENDER_EMAIL=noreply@redheadedstepchildtech.com, CONTACT_TO_EMAIL=admin@redheadedstepchildtech.com, AUTO_REPLY=true.
+
 ## Email / Contact (added 2026-06)
 - Resend integration via Next.js Route Handler `app/api/contact/route.ts` (Node `resend` SDK).
 - Contact form now POSTs to /api/contact with sending + error states; verified working
