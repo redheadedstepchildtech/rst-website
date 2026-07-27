@@ -1,87 +1,125 @@
+import Link from "next/link";
+import {
+  Rocket,
+  Boxes,
+  ShieldCheck,
+  BookOpen,
+  Radar,
+  ExternalLink,
+  ArrowRight,
+} from "lucide-react";
+import { SYSTEMS, IMG, DREAM_FUNNEL_URL } from "@/lib/site";
+
+const sysIcons: Record<string, React.ElementType> = {
+  Rocket,
+  Boxes,
+  ShieldCheck,
+  BookOpen,
+  Radar,
+};
+
+const statusStyle: Record<string, string> = {
+  LIVE: "text-green-400 border-green-400/40 bg-green-400/10",
+  "IN BUILD": "text-amber border-amber/40 bg-amber/10",
+  PLANNED: "text-ion border-ion/40 bg-ion/10",
+};
+
+export const metadata = {
+  title: "Systems — Redheaded Stepchild Tech",
+  description: "The systems and platforms engineered by Redheaded Stepchild Tech.",
+};
+
 export default function ProductsPage() {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
-
-      <h1 className="text-4xl font-bold text-red-700 mb-8">
-        Our Systems & Platforms
-      </h1>
-
-      <p className="text-lg text-gray-700 leading-relaxed mb-10">
-        Redheaded Stepchild Tech builds modern, dignity-first systems that replace old,
-        clunky, outdated tools. Every platform we create is designed to solve real-world
-        problems with clarity, speed, and compassion — without the corporate nonsense.
-      </p>
-
-      {/* Dream Funnel */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-          Dream Funnel
-        </h2>
-        <p className="text-gray-700 leading-relaxed">
-          Dream Funnel is our flagship donation and support platform. It helps people in
-          crisis tell their story, receive help quickly, and maintain dignity throughout
-          the process. Built to replace outdated, confusing donation systems with a clean,
-          human-centered experience.
-        </p>
+    <div data-testid="products-page">
+      {/* Header */}
+      <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 -z-10 opacity-30"
+          style={{ backgroundImage: `url(${IMG.galaxy})`, backgroundSize: "cover", backgroundPosition: "center" }}
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-void/70 to-void" />
+        <div className="mx-auto max-w-7xl px-6 pb-16 pt-24 md:pt-28">
+          <span className="eyebrow fade-up">// payload manifest</span>
+          <h1 className="fade-up mt-4 max-w-4xl font-display text-5xl font-bold leading-tight text-white md:text-6xl" style={{ animationDelay: "0.1s" }}>
+            Systems &amp; platforms
+          </h1>
+          <p className="fade-up mt-6 max-w-2xl text-lg text-mist" style={{ animationDelay: "0.2s" }}>
+            We build modern, dignity-first systems that replace old, clunky, outdated tools.
+            Every platform is designed to solve real-world problems with clarity, speed, and
+            compassion — without the corporate nonsense.
+          </p>
+        </div>
       </section>
 
-      {/* Swapmeet */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-          The Swapmeet
-        </h2>
-        <p className="text-gray-700 leading-relaxed">
-          The Swapmeet is a local exchange system that lets communities trade goods,
-          services, and resources without friction. It replaces messy Facebook groups,
-          unreliable classifieds, and chaotic community boards with a simple, structured,
-          trustworthy platform.
-        </p>
+      {/* Systems list */}
+      <section className="mx-auto max-w-7xl px-6 py-12">
+        <div className="space-y-6">
+          {SYSTEMS.map((s) => {
+            const Icon = sysIcons[s.icon] ?? Boxes;
+            return (
+              <div
+                key={s.code}
+                className="glass panel-hover grid gap-6 rounded-2xl p-8 md:grid-cols-[auto_1fr_auto] md:items-center"
+                data-testid={`product-${s.name.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+              >
+                <span className="grid h-16 w-16 place-items-center rounded-2xl border border-crimson/30 bg-crimson/10">
+                  <Icon className="h-8 w-8 text-crimson" />
+                </span>
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="font-mono text-xs text-ion">{s.code}</span>
+                    <span className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] ${statusStyle[s.status]}`}>
+                      {s.status}
+                    </span>
+                  </div>
+                  <h2 className="mt-2 font-display text-2xl font-semibold text-white">{s.name}</h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-mist">{s.blurb}</p>
+                </div>
+                {s.external && s.href ? (
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary text-sm"
+                    data-testid={`product-launch-${s.name.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+                  >
+                    Launch <ExternalLink className="h-4 w-4" />
+                  </a>
+                ) : (
+                  <span className="rounded-full border border-line px-5 py-2 font-mono text-xs text-mist">
+                    Coming soon
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-16 glass rounded-2xl p-10 text-center">
+          <h3 className="font-display text-2xl font-semibold text-white">
+            Dream Funnel is live right now.
+          </h3>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-mist">
+            Our flagship dignity-first donation platform is up and helping people today.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <a
+              href={DREAM_FUNNEL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+              data-testid="products-cta-dreamfunnel"
+            >
+              <Rocket className="h-5 w-5" /> Visit Dreamfunnel.net
+            </a>
+            <Link href="/contact" className="btn-ghost" data-testid="products-cta-contact">
+              Talk to us <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
       </section>
-
-      {/* MORES */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-          MORES (Modern Resource System)
-        </h2>
-        <p className="text-gray-700 leading-relaxed">
-          MORES is our enterprise-grade purchasing and resource management system. It
-          replaces outdated government and corporate procurement tools with clean
-          workflows, automated approvals, vendor management, inventory tracking, audit
-          trails, and dashboards. Designed for organizations that need clarity, not chaos.
-        </p>
-      </section>
-
-      {/* Stories */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-          Stories
-        </h2>
-        <p className="text-gray-700 leading-relaxed">
-          Stories is a community storytelling platform that gives people a place to share
-          experiences, journeys, and moments that matter. It replaces cluttered social
-          media feeds with a clean, narrative-first space built for authenticity.
-        </p>
-      </section>
-
-      {/* Flying Magnetometer */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-3">
-          Flying Magnetometer Project
-        </h2>
-        <p className="text-gray-700 leading-relaxed">
-          Our flying magnetometer system combines custom hardware, drone integration, and
-          geophysical software to map subsurface magnetic anomalies. It replaces expensive,
-          outdated survey tools with a modern, lightweight, field-ready solution.
-        </p>
-      </section>
-
-      <hr className="my-12 border-gray-300" />
-
-      <p className="text-lg text-gray-700 leading-relaxed">
-        Every system we build is designed to replace something broken — with something
-        better. Clean engineering. Real-world impact. Montana-built.
-      </p>
-
     </div>
   );
 }
