@@ -6,6 +6,19 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DREAM_FUNNEL_URL = "https://dreamfunnel.net";
 
+// Lightweight in-memory rate limit (best-effort; per warm serverless instance).
+const RATE_LIMIT = 5;
+const WINDOW_MS = 10 * 60 * 1000;
+const hits = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) || []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  return recent.length > RATE_LIMIT;
+}
+
 function escapeHtml(input: string): string {
   return input
     .replace(/&/g, "&amp;")
@@ -57,6 +70,21 @@ function autoReplyHtml(name: string, message: string): string {
 export async function POST(req: Request) {
   try {
     const raw = await req.json();
+
+    // Honeypot: real users never fill this. Silently accept + drop bot submissions.
+    if ((raw.website ?? "").toString().trim()) {
+      return NextResponse.json({ ok: true });
+    }
+
+    // Basic rate limiting by client IP.
+    const ip = (req.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { error: "Too many messages. Please wait a few minutes and try again." },
+        { status: 429 }
+      );
+    }
+
     const name = escapeHtml((raw.name ?? "Anonymous").toString().slice(0, 120).trim() || "Anonymous");
     const email = (raw.email ?? "").toString().slice(0, 254).trim();
     const message = escapeHtml((raw.message ?? "").toString().slice(0, 5000).trim());

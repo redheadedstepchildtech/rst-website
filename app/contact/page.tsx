@@ -8,7 +8,7 @@ export default function ContactPage() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +108,7 @@ export default function ContactPage() {
                   we'll be in touch soon.
                 </p>
                 <button
-                  onClick={() => { setSent(false); setForm({ name: "", email: "", message: "" }); }}
+                  onClick={() => { setSent(false); setForm({ name: "", email: "", message: "", website: "" }); }}
                   className="btn-ghost mt-8 text-sm"
                   data-testid="contact-reset"
                 >
@@ -117,6 +117,18 @@ export default function ContactPage() {
               </div>
             ) : (
               <form className="space-y-5" onSubmit={handleSubmit} data-testid="contact-form">
+                {/* Honeypot — hidden from humans; bots that fill it are rejected */}
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+                  <label>Company (leave this field blank)</label>
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={form.website}
+                    onChange={(e) => setForm({ ...form, website: e.target.value })}
+                    data-testid="contact-hp-website"
+                  />
+                </div>
                 <div>
                   <label className="eyebrow mb-2 block text-[0.6rem]">Name (optional)</label>
                   <input
