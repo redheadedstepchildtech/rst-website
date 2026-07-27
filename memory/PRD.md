@@ -97,5 +97,17 @@ Dream Funnel (https://dreamfunnel.net).
   robust rate limiting, add Upstash Redis later.
 - Verified iteration_5 (100%): real submissions succeed, honeypot hidden, reset works, pages 200.
 
+## GO-LIVE STATUS (2026-06) — READY ✅
+- Domain redheadedstepchildtech.com VERIFIED in Resend. Production email config live in
+  preview: SENDER_EMAIL=noreply@redheadedstepchildtech.com, CONTACT_TO_EMAIL=admin@redheadedstepchildtech.com, AUTO_REPLY=true.
+- Live send confirmed: notification to admin@ + auto-reply both send (real Resend id, 0 errors).
+- iteration_6.json: 100% final go-live pass — all 4 pages 200, nav/footer, all Dream Funnel
+  CTAs (→ dreamfunnel.net, new tab), contact form live-send + validation + reset, honeypot
+  hidden, favicon + OG/Twitter meta + tagline present.
+- `next build` passes; preview serves the production build (next start).
+- FOR VERCEL: set env vars RESEND_API_KEY, SENDER_EMAIL=noreply@redheadedstepchildtech.com,
+  CONTACT_TO_EMAIL=admin@redheadedstepchildtech.com, AUTO_REPLY=true (.env.local is gitignored,
+  NOT pushed). Then Save to GitHub → import repo on Vercel → deploy.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.
