@@ -33,13 +33,36 @@ Dream Funnel (https://dreamfunnel.net).
 - All routes return HTTP 200 (/, /about, /products, /contact).
 - Visual QA via screenshots: home, products, contact confirmed on-theme and correct.
 
+## Deployment (2026-06)
+- Emergent "Publish" FAILS for this app by design: the Emergent deployer expects the
+  standard FastAPI (`/app/backend`) + CRA (`/app/frontend`) structure and looks for
+  `backend/.env`. This is a pure Next.js app at repo root → NOT compatible with Emergent
+  deploy. **Deploy target = Vercel** (native Next.js, supports the Resend API route).
+- Fixed a Vercel build blocker: removed the stale `package-lock.json` (out of sync after
+  adding lucide-react + resend); repo now uses `yarn.lock`. `next build` passes cleanly.
+- Preview environment now serves a PRODUCTION build: `/app/frontend/package.json` launcher
+  runs `next build && next start -H 0.0.0.0 -p 3000` (was `next dev`). This fixed a
+  Turbopack dev-server hydration failure behind the Emergent preview proxy.
+- Added a preview-only FastAPI proxy `/app/backend/server.py` (port 8001) that forwards
+  `/api/*` to the Next server on port 3000, because the Emergent preview ingress routes
+  `/api/*` to 8001. On Vercel this proxy is irrelevant (Next handles all routing).
+- Hardened `app/api/contact/route.ts`: HTML-escape all user inputs (name/email/message),
+  email format validation, length caps.
+
+## Deploy steps for the user (Vercel)
+1. Save to GitHub (push latest — redesign/email/branding are only local until pushed).
+2. vercel.com → Add New Project → import `redheadedstepchildtech/rst-website`.
+3. Framework auto-detects Next.js; Root Directory = repo root (leave default `./`).
+4. Add env vars: RESEND_API_KEY, SENDER_EMAIL, CONTACT_TO_EMAIL (these are in gitignored
+   `.env.local` and are NOT pushed).
+5. Deploy.
+
+## Testing
+- iteration_3.json: 100% frontend pass through preview URL (pages, nav, Dream Funnel links,
+  contact form submit → Resend 200 → success state, reset, SPA nav).
+
 ## Next Action Items
-- Push the redesign to GitHub (`Save to GitHub`) so Vercel auto-deploys the new version.
-- On Vercel, add env vars: RESEND_API_KEY, SENDER_EMAIL, CONTACT_TO_EMAIL (they live in
-  `/app/.env.local` which is gitignored and will NOT be pushed).
-- Verify domain `redheadedstepchildtech.com` at resend.com/domains, then set
-  SENDER_EMAIL=noreply@redheadedstepchildtech.com and CONTACT_TO_EMAIL=admin@redheadedstepchildtech.com
-  to deliver to the real inbox (currently sandbox-limited).
+- Push to GitHub, then deploy on Vercel (steps above).
 
 ## Email / Contact (added 2026-06)
 - Resend integration via Next.js Route Handler `app/api/contact/route.ts` (Node `resend` SDK).
