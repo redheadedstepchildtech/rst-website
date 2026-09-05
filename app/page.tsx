@@ -54,7 +54,7 @@ const features = [
   {
     icon: Mountain,
     title: "Montana Built",
-    body: "Based in Helena Valley. We build with the honesty, grit, and practicality Montana is known for.",
+    body: "Rooted in Montana. We build with the honesty, grit, and practicality the state is known for.",
   },
   {
     icon: Sparkles,
@@ -74,7 +74,7 @@ const roadmap = [
   {
     phase: "RST 1.0",
     title: "The Foundation",
-    body: "Dream Funnel, Swapmeet, MORES, Stories, and the Flying Magnetometer. Clean interfaces, simple workflows, tools built for real people.",
+    body: "Dream Funnel, Swapmeet, MORES, Myrna Stories, and the Flying Magnetometer. Clean interfaces, simple workflows, tools built for real people.",
   },
   {
     phase: "RST 2.0",
@@ -92,7 +92,7 @@ export default function HomePage() {
   return (
     <div data-testid="home-page">
       {/* ---------------- HERO ---------------- */}
-      <section className="relative overflow-hidden">
+      <section className="relative isolate overflow-hidden">
         <div
           className="absolute inset-0 -z-10 opacity-40"
           style={{
@@ -102,11 +102,13 @@ export default function HomePage() {
           }}
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-void/60 via-void/80 to-void" />
+        <div className="warp-lines absolute inset-0 -z-10" aria-hidden="true" />
+        <div className="wormhole -z-10 right-4 top-24 h-72 w-72 opacity-80 md:right-16 md:top-16 md:h-[28rem] md:w-[28rem]" aria-hidden="true" />
 
         <div className="mx-auto max-w-7xl px-6 pb-24 pt-24 md:pt-32">
           <div className="fade-up flex items-center gap-3" style={{ animationDelay: "0.05s" }}>
             <span className="inline-block h-2 w-2 rounded-full bg-green-400 live-dot" />
-            <span className="eyebrow">Helena Valley · Montana · EST. 2026</span>
+            <span className="eyebrow">Montana · Sector 001 · EST. 2026</span>
           </div>
 
           <h1
@@ -114,7 +116,7 @@ export default function HomePage() {
             style={{ animationDelay: "0.15s" }}
           >
             High-technology tools for the
-            <span className="text-gradient"> people the world overlooked.</span>
+            <span className="text-gradient"> people of Earth.</span>
           </h1>
 
           <p
@@ -286,7 +288,7 @@ export default function HomePage() {
 
       {/* ---------------- CTA ---------------- */}
       <section className="mx-auto max-w-7xl px-6 pb-8">
-        <div className="relative overflow-hidden rounded-3xl border border-line">
+        <div className="relative isolate overflow-hidden rounded-3xl border border-line">
           <div
             className="absolute inset-0 opacity-40"
             style={{
@@ -296,6 +298,7 @@ export default function HomePage() {
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-void via-void/85 to-void/40" />
+          <div className="wormhole -bottom-24 -right-16 h-80 w-80 opacity-70" aria-hidden="true" />
           <div className="relative px-8 py-20 md:px-16">
             <span className="eyebrow">// ready for launch</span>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-bold leading-tight text-white md:text-5xl">

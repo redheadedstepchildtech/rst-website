@@ -1,7 +1,7 @@
 export const DREAM_FUNNEL_URL = "https://dreamfunnel.net";
 export const PHONE = "(406) 437-2008";
 export const EMAIL = "admin@redheadedstepchildtech.com";
-export const LOCATION = "Helena Valley, Montana";
+export const LOCATION = "Montana";
 
 export const IMG = {
   earthNight:
@@ -55,11 +55,13 @@ export const SYSTEMS: SystemItem[] = [
   },
   {
     code: "RST-04",
-    name: "Stories",
+    name: "Myrna Stories",
     icon: "BookOpen",
     blurb:
       "A narrative-first platform giving people a place to share journeys and moments that matter — authenticity over algorithms.",
-    status: "PLANNED",
+    status: "LIVE",
+    href: "https://myrnastories.com",
+    external: true,
   },
   {
     code: "RST-05",

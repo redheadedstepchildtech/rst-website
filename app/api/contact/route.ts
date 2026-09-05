@@ -31,7 +31,7 @@ function escapeHtml(input: string): string {
 function notificationHtml(name: string, safeEmail: string, message: string): string {
   return `
     <div style="font-family:Arial,Helvetica,sans-serif;background:#0b1120;color:#e6edfa;padding:24px;border-radius:12px;">
-      <h2 style="color:#ff3b3b;margin:0 0 16px;">New message from RST Tech website</h2>
+      <h2 style="color:#ff3b3b;margin:0 0 16px;">New message from Redheaded Stepchild Tech website</h2>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         <tr><td style="padding:6px 0;color:#93a4c4;width:90px;">Name</td><td style="padding:6px 0;">${name}</td></tr>
         <tr><td style="padding:6px 0;color:#93a4c4;">Email</td><td style="padding:6px 0;"><a style="color:#52d1ff;" href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
@@ -60,7 +60,7 @@ function autoReplyHtml(name: string, message: string): string {
         Explore Dream Funnel &rarr;
       </a>
       <p style="color:#6f8099;font-size:12px;margin-top:28px;">
-        Redheaded Stepchild Tech · Helena Valley, Montana<br/>
+        Redheaded Stepchild Tech · Montana<br/>
         Boldly go where no software system has gone before.
       </p>
     </div>
@@ -108,7 +108,7 @@ export async function POST(req: Request) {
 
     // 1) Notification to the team (primary — its failure fails the request)
     const { data, error } = await resend.emails.send({
-      from: `RST Tech <${from}>`,
+      from: `Redheaded Stepchild Tech <${from}>`,
       to: [to],
       replyTo: email,
       subject: `New contact from ${name}`,

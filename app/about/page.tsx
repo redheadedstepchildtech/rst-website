@@ -29,7 +29,7 @@ const values = [
   },
   {
     title: "Montana roots",
-    body: "Based in Helena Valley — a place where people help each other and tools are built to last. Our work reflects that same honest, practical spirit.",
+    body: "Based in Montana — a place where people help each other and tools are built to last. Our work reflects that same honest, practical spirit.",
   },
 ];
 

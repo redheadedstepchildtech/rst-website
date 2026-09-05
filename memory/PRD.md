@@ -109,5 +109,18 @@ Dream Funnel (https://dreamfunnel.net).
   CONTACT_TO_EMAIL=admin@redheadedstepchildtech.com, AUTO_REPLY=true (.env.local is gitignored,
   NOT pushed). Then Save to GitHub → import repo on Vercel → deploy.
 
+## Update — Star Trek theme + content (2026-06)
+- Star Trek visuals: warp-speed streaks (.warp-lines) + wormhole portals (.wormhole) on hero
+  & CTA (hero section uses `isolate` so -z-10 decor layers above page bg). globals.css.
+- Brand text now "Redheaded Stepchild Tech" (navbar + footer); email from-name updated too.
+- Removed all Helena/Helena Valley refs → "Montana". LOCATION="Montana". Eyebrow now
+  "Montana · Sector 001 · EST. 2026".
+- Hero H1 → "High-technology tools for the people of Earth."
+- "Stories" → "Myrna Stories", status LIVE, external link https://myrnastories.com
+  (home systems grid + Systems page). lib/site.ts.
+- iteration_7.json: 100% pass (pages, brand, no-Helena, Myrna links new-tab, Dream Funnel
+  regression, contact live-send + validation, hero buttons/telemetry visible).
+- NOTE: these are in PREVIEW; production (https://ghost-code-1.emergent.host) needs a REDEPLOY.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.

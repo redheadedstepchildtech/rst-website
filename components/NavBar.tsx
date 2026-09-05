@@ -29,8 +29,8 @@ export default function NavBar() {
             <Radio className="h-5 w-5 text-crimson" />
           </span>
           <span className="leading-none">
-            <span className="block font-display text-lg font-bold tracking-wide text-white">
-              RST<span className="text-crimson"> TECH</span>
+            <span className="block font-display text-sm font-bold leading-tight tracking-wide text-white sm:text-base">
+              Redheaded Stepchild <span className="text-crimson">Tech</span>
             </span>
             <span className="eyebrow text-[0.6rem]">// mission control</span>
           </span>

@@ -14,7 +14,7 @@ export default function Footer() {
                 <Radio className="h-5 w-5 text-crimson" />
               </span>
               <span className="font-display text-lg font-bold tracking-wide text-white">
-                RST<span className="text-crimson"> TECH</span>
+                Redheaded Stepchild <span className="text-crimson">Tech</span>
               </span>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-mist">
@@ -64,7 +64,7 @@ export default function Footer() {
           <p className="font-mono">© 2026 Redheaded Stepchild Tech™ · All systems reserved</p>
           <p className="font-mono">
             <span className="mr-2 inline-block h-2 w-2 rounded-full bg-green-400 live-dot align-middle" />
-            All systems nominal · Helena Valley, MT
+            All systems nominal · Montana
           </p>
         </div>
       </div>

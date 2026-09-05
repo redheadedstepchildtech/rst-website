@@ -187,3 +187,38 @@ body {
   background: rgba(255, 59, 59, 0.35);
   color: #fff;
 }
+
+/* ---------- Star Trek: warp speed + wormholes ---------- */
+.warp-lines {
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(closest-side, black 8%, transparent 68%);
+  mask-image: radial-gradient(closest-side, black 8%, transparent 68%);
+}
+.warp-lines::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: repeating-conic-gradient(from 0deg at 72% 42%, transparent 0deg 1.4deg, rgba(140, 190, 255, 0.18) 1.4deg 1.8deg);
+  animation: warpZoom 5s linear infinite;
+}
+@keyframes warpZoom {
+  0% { transform: scale(0.5); opacity: 0; }
+  35% { opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.wormhole {
+  position: absolute;
+  border-radius: 9999px;
+  background:
+    radial-gradient(closest-side, transparent 34%, rgba(82, 209, 255, 0.30) 40%, transparent 45%),
+    radial-gradient(closest-side, transparent 45%, rgba(120, 90, 255, 0.32) 53%, transparent 58%),
+    radial-gradient(closest-side, transparent 58%, rgba(255, 59, 59, 0.28) 66%, transparent 72%),
+    conic-gradient(from 0deg, rgba(82, 209, 255, 0.40), rgba(120, 90, 255, 0.15), rgba(255, 59, 59, 0.40), rgba(82, 209, 255, 0.40));
+  filter: blur(6px);
+  opacity: 0.6;
+  animation: spinSlow 18s linear infinite, floaty 10s ease-in-out infinite;
+  -webkit-mask-image: radial-gradient(closest-side, transparent 30%, black 34%, black 74%, transparent 79%);
+  mask-image: radial-gradient(closest-side, transparent 30%, black 34%, black 74%, transparent 79%);
+}
