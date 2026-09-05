@@ -39,18 +39,18 @@ export const SYSTEMS: SystemItem[] = [
   },
   {
     code: "RST-02",
-    name: "Swapmeet",
+    name: "Market Place",
     icon: "Boxes",
     blurb:
-      "A clean, structured community exchange that replaces messy classifieds and chaotic Facebook groups with something trustworthy.",
+      "A clean, structured online marketplace that replaces messy classifieds and chaotic Facebook groups with something trustworthy.",
     status: "IN BUILD",
   },
   {
     code: "RST-03",
-    name: "MORES",
+    name: "Enterprise Resource System",
     icon: "ShieldCheck",
     blurb:
-      "A modern purchasing and resource system replacing outdated government and corporate procurement tools with clean, auditable workflows.",
+      "A modern purchasing and resource-management platform replacing outdated government and corporate procurement tools with clean, auditable workflows.",
     status: "IN BUILD",
   },
   {

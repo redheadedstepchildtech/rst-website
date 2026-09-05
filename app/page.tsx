@@ -15,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { SYSTEMS, IMG, DREAM_FUNNEL_URL } from "@/lib/site";
+import WaitlistButton from "@/components/WaitlistButton";
 
 const sysIcons: Record<string, React.ElementType> = {
   Rocket,
@@ -74,7 +75,7 @@ const roadmap = [
   {
     phase: "RST 1.0",
     title: "The Foundation",
-    body: "Dream Funnel, Swapmeet, MORES, Myrna Stories, and the Flying Magnetometer. Clean interfaces, simple workflows, tools built for real people.",
+    body: "Dream Funnel, Market Place, Enterprise Resource System, Myrna Stories, and the Flying Magnetometer. Clean interfaces, simple workflows, tools built for real people.",
   },
   {
     phase: "RST 2.0",
@@ -231,10 +232,14 @@ export default function HomePage() {
                   <div className="mt-5 font-mono text-xs text-ion">{s.code}</div>
                   <h3 className="mt-1 font-display text-xl font-semibold text-white">{s.name}</h3>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-mist">{s.blurb}</p>
-                  {s.external && (
+                  {s.external ? (
                     <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-crimson">
                       Launch system <ExternalLink className="h-4 w-4" />
                     </span>
+                  ) : (
+                    <div className="mt-5">
+                      <WaitlistButton system={s.name} />
+                    </div>
                   )}
                 </div>
               );

@@ -122,5 +122,16 @@ Dream Funnel (https://dreamfunnel.net).
   regression, contact live-send + validation, hero buttons/telemetry visible).
 - NOTE: these are in PREVIEW; production (https://ghost-code-1.emergent.host) needs a REDEPLOY.
 
+## Update — renames + waitlist (2026-06)
+- Renamed systems: Swapmeet → "Market Place", MORES → "Enterprise Resource System"
+  (lib/site.ts; roadmap text on home updated).
+- Added early-access WAITLIST capture (`components/WaitlistButton.tsx` + `app/api/waitlist/route.ts`)
+  on all non-live systems (Market Place, Enterprise Resource System, Flying Magnetometer),
+  on both Home grid and Systems page. Flow: "Notify me" → email → Join → "You're on the list".
+  API emails the team + a confirmation to the subscriber via Resend; has honeypot + rate limit.
+- iteration_8.json: 100% pass (waitlist e2e home+products, invalid-email blocked, renames,
+  Dream Funnel/Myrna links, contact form regression).
+- NOTE: in PREVIEW; production (https://ghost-code-1.emergent.host) needs a REDEPLOY.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.

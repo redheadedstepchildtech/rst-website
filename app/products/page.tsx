@@ -9,6 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { SYSTEMS, IMG, DREAM_FUNNEL_URL } from "@/lib/site";
+import WaitlistButton from "@/components/WaitlistButton";
 
 const sysIcons: Record<string, React.ElementType> = {
   Rocket,
@@ -87,9 +88,7 @@ export default function ProductsPage() {
                     Launch <ExternalLink className="h-4 w-4" />
                   </a>
                 ) : (
-                  <span className="rounded-full border border-line px-5 py-2 font-mono text-xs text-mist">
-                    Coming soon
-                  </span>
+                  <WaitlistButton system={s.name} />
                 )}
               </div>
             );
