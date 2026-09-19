@@ -21,7 +21,7 @@ export type SystemItem = {
   name: string;
   icon: string;
   blurb: string;
-  status: "LIVE" | "IN BUILD" | "PLANNED";
+  status: "LIVE" | "IN BUILD" | "PLANNED" | "PATENTED";
   href?: string;
   external?: boolean;
 };
@@ -65,10 +65,11 @@ export const SYSTEMS: SystemItem[] = [
   },
   {
     code: "RST-05",
-    name: "Flying Magnetometer",
+    name: "SkyForge",
     icon: "Radar",
     blurb:
-      "Custom hardware + drone integration + geophysical software mapping subsurface magnetic anomalies. Field-ready, rugged, affordable.",
-    status: "IN BUILD",
+      "Our patented drone-borne magnetometer platform — custom hardware, autonomous flight, and geophysical software that maps subsurface magnetic anomalies. Field-ready, rugged, affordable.",
+    status: "PATENTED",
+    href: "/skyforge",
   },
 ];

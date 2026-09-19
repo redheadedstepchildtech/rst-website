@@ -23,6 +23,7 @@ const statusStyle: Record<string, string> = {
   LIVE: "text-green-400 border-green-400/40 bg-green-400/10",
   "IN BUILD": "text-amber border-amber/40 bg-amber/10",
   PLANNED: "text-ion border-ion/40 bg-ion/10",
+  PATENTED: "text-amber border-amber/50 bg-amber/15",
 };
 
 export const metadata = {
@@ -87,6 +88,14 @@ export default function ProductsPage() {
                   >
                     Launch <ExternalLink className="h-4 w-4" />
                   </a>
+                ) : s.href ? (
+                  <Link
+                    href={s.href}
+                    className="btn-ghost text-sm"
+                    data-testid={`product-learn-${s.name.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+                  >
+                    Learn more <ArrowRight className="h-4 w-4" />
+                  </Link>
                 ) : (
                   <WaitlistButton system={s.name} />
                 )}

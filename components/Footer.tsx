@@ -38,6 +38,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-mist">
               <li><Link href="/" className="hover:text-white">Home</Link></li>
               <li><Link href="/products" className="hover:text-white">Systems</Link></li>
+              <li><Link href="/skyforge" className="hover:text-white">SkyForge</Link></li>
               <li><Link href="/about" className="hover:text-white">About</Link></li>
               <li><Link href="/contact" className="hover:text-white">Contact</Link></li>
             </ul>

@@ -29,6 +29,7 @@ const statusStyle: Record<string, string> = {
   LIVE: "text-green-400 border-green-400/40 bg-green-400/10",
   "IN BUILD": "text-amber border-amber/40 bg-amber/10",
   PLANNED: "text-ion border-ion/40 bg-ion/10",
+  PATENTED: "text-amber border-amber/50 bg-amber/15",
 };
 
 const features = [
@@ -75,7 +76,7 @@ const roadmap = [
   {
     phase: "RST 1.0",
     title: "The Foundation",
-    body: "Dream Funnel, Market Place, Enterprise Resource System, Myrna Stories, and the Flying Magnetometer. Clean interfaces, simple workflows, tools built for real people.",
+    body: "Dream Funnel, Market Place, Enterprise Resource System, Myrna Stories, and SkyForge. Clean interfaces, simple workflows, tools built for real people.",
   },
   {
     phase: "RST 2.0",
@@ -236,6 +237,10 @@ export default function HomePage() {
                     <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-crimson">
                       Launch system <ExternalLink className="h-4 w-4" />
                     </span>
+                  ) : s.href ? (
+                    <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-crimson">
+                      Explore {s.name} <ArrowRight className="h-4 w-4" />
+                    </span>
                   ) : (
                     <div className="mt-5">
                       <WaitlistButton system={s.name} />
@@ -243,16 +248,24 @@ export default function HomePage() {
                   )}
                 </div>
               );
-              return s.href ? (
+              return s.external && s.href ? (
                 <a
                   key={s.code}
                   href={s.href}
-                  target={s.external ? "_blank" : undefined}
-                  rel={s.external ? "noopener noreferrer" : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   data-testid={`system-${s.name.toLowerCase().replace(/[^a-z]+/g, "-")}`}
                 >
                   {Card}
                 </a>
+              ) : s.href ? (
+                <Link
+                  key={s.code}
+                  href={s.href}
+                  data-testid={`system-${s.name.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+                >
+                  {Card}
+                </Link>
               ) : (
                 <div key={s.code} data-testid={`system-${s.name.toLowerCase().replace(/[^a-z]+/g, "-")}`}>
                   {Card}

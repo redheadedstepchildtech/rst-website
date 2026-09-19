@@ -9,6 +9,7 @@ import { DREAM_FUNNEL_URL, PHONE } from "@/lib/site";
 const links = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Systems" },
+  { href: "/skyforge", label: "SkyForge" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
