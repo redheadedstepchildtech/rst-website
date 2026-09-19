@@ -133,5 +133,15 @@ Dream Funnel (https://dreamfunnel.net).
   Dream Funnel/Myrna links, contact form regression).
 - NOTE: in PREVIEW; production (https://ghost-code-1.emergent.host) needs a REDEPLOY.
 
+## Update — SkyForge (patented drone) 2026-06
+- Renamed "Flying Magnetometer" → "SkyForge" everywhere; status "PATENTED" (amber badge).
+- New dedicated page `/app/app/skyforge/page.tsx` (hero + patent badge + capabilities + use
+  cases + CTAs, drone imagery). Added "SkyForge" to navbar + footer.
+- System card logic is now three-way: external (Dream Funnel/Myrna → new tab), internal
+  (SkyForge → /skyforge via Link), in-build (Market Place/ERS → waitlist). page.tsx + products.
+- iteration_9.json: 100% pass (SkyForge page + nav + card links, waitlist/external/contact regress).
+- NOTE: in PREVIEW; production needs a REDEPLOY. SkyForge page copy/specs are a first draft
+  pending the owner's real content (patent no., specs, photos).
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.
