@@ -143,5 +143,11 @@ Dream Funnel (https://dreamfunnel.net).
 - NOTE: in PREVIEW; production needs a REDEPLOY. SkyForge page copy/specs are a first draft
   pending the owner's real content (patent no., specs, photos).
 
+- SkyForge page now uses REAL owner content: "SkyForge RASP" (Rugged Aerial Sensing
+  Platform), flying-saucer airframe, single-prop/coaxial enclosed propulsion, MgO/TMR
+  Quantum Field Imager (QFI) payload, 5 RASP pillars, roadmap v1.0–v3.0, founder's quote.
+  Imagery = 3 AI-generated flying-saucer concept renders (hero/studio/scan) since no stock
+  drone photos fit the saucer design.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.

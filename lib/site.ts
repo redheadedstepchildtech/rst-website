@@ -68,7 +68,7 @@ export const SYSTEMS: SystemItem[] = [
     name: "SkyForge",
     icon: "Radar",
     blurb:
-      "Our patented drone-borne magnetometer platform — custom hardware, autonomous flight, and geophysical software that maps subsurface magnetic anomalies. Field-ready, rugged, affordable.",
+      "Our patented flying-saucer Rugged Aerial Sensing Platform (RASP) — enclosed coaxial propulsion and an MgO/TMR Quantum Field Imager that maps subsurface anomalies where fragile quadcopters fail.",
     status: "PATENTED",
     href: "/skyforge",
   },
