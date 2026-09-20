@@ -338,3 +338,25 @@ body {
   }
   .sf-cinema-img { transform: scale(1.08); }
 }
+
+/* ---------- SkyForge concept gallery marquee ---------- */
+.sf-marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.sf-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 1.5rem;
+  animation: sfMarquee 38s linear infinite;
+}
+.sf-marquee:hover .sf-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes sfMarquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sf-marquee-track { animation: none; }
+}

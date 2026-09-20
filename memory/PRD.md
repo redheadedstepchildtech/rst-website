@@ -168,5 +168,12 @@ Dream Funnel (https://dreamfunnel.net).
 - NOTE: in PREVIEW; production (https://ghost-code-1.emergent.host) needs a REDEPLOY to
   show the cinemagraph.
 
+## Update — SkyForge concept gallery (2026-06)
+- Added auto-scrolling "Concept gallery" marquee (data-testid=skyforge-gallery) lower on
+  /skyforge (after roadmap, before founder quote). Shows the 3 saucer renders
+  (forest survey / alpine RECON-7 / airframe studio) in a seamless CSS marquee
+  (.sf-marquee + .sf-marquee-track, 38s loop, pause-on-hover, prefers-reduced-motion off).
+  Captioned glass frames, hover zoom. All 3 image URLs verified 200; DOM verified.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.

@@ -63,6 +63,12 @@ const applications = [
   "Fault line identification",
 ];
 
+const gallery = [
+  { src: IMG.scan, caption: "RASP · forest geophysical survey" },
+  { src: IMG.hero, caption: "RECON-7 · alpine field deployment" },
+  { src: IMG.studio, caption: "Airframe · enclosed coaxial rotor" },
+];
+
 const roadmap = [
   { v: "v1.0", title: "SkyForge RASP Core", items: ["Flying-saucer airframe", "Single-prop / coaxial propulsion", "Ruggedized chassis", "QFI magnetics payload", "Modular payload architecture"] },
   { v: "v1.1", title: "Expanded Payload Ecosystem", items: ["Thermal imaging", "Environmental sensors", "Custom payload SDK"] },
@@ -219,6 +225,38 @@ export default function SkyForgePage() {
               </ul>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* CONCEPT GALLERY */}
+      <section className="py-8" data-testid="skyforge-gallery">
+        <div className="mx-auto mb-10 max-w-7xl px-6">
+          <span className="eyebrow">// concept renders</span>
+          <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-5xl">Concept gallery</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-mist">
+            Early flying-saucer RASP concept renders — airframe, enclosed rotor, and field
+            deployment studies.
+          </p>
+        </div>
+        <div className="sf-marquee overflow-hidden">
+          <div className="sf-marquee-track">
+            {[...gallery, ...gallery].map((g, i) => (
+              <figure
+                key={i}
+                className="group relative w-[300px] flex-none overflow-hidden rounded-2xl border border-line md:w-[440px]"
+                data-testid={i < gallery.length ? `gallery-item-${i}` : undefined}
+              >
+                <img
+                  src={g.src}
+                  alt={g.caption}
+                  className="h-[200px] w-full object-cover transition-transform duration-500 group-hover:scale-105 md:h-[280px]"
+                />
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-void via-void/70 to-transparent px-5 pb-4 pt-10 font-mono text-xs uppercase tracking-widest text-mist">
+                  {g.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
 
