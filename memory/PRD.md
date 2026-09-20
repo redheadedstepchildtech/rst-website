@@ -149,5 +149,24 @@ Dream Funnel (https://dreamfunnel.net).
   Imagery = 3 AI-generated flying-saucer concept renders (hero/studio/scan) since no stock
   drone photos fit the saucer design.
 
+## Update — SkyForge cinemagraph hero (2026-06)
+- Replaced the static SkyForge hero with an animated "in-flight scanning" CINEMAGRAPH
+  (owner asked for a video of it flying/avoiding trees; true AI video needs a paid
+  fal.ai key + is inconsistent, so we built a reliable CSS cinemagraph instead).
+- New client component `components/SkyForgeCinemagraph.tsx`: base render = the FOREST
+  scan image (IMG.scan) so the saucer threads the tree line over geophysical scan lines.
+  Motion (all CSS, GPU-friendly transform/opacity): Ken Burns drift (.sf-cinema-img),
+  radar sweep beam (.sf-sweep), breathing survey glow (.sf-scanzone), drifting fog
+  (.sf-fog), rising data motes (.sf-mote), scroll parallax (JS scroll listener).
+  Live HUD: "SURVEY IN PROGRESS · SECTOR MT-07" badge + telemetry strip (ALT / SCAN /
+  SIGNALS / MODE) where SIGNALS ticks up on a setInterval (cleared on unmount).
+  prefers-reduced-motion guard added in globals.css.
+- The mountain saucer render (IMG.hero) moved to the QFI section background.
+- iteration_10.json: 100% pass (cinemagraph testids render, SIGNALS increments 1247->1255,
+  CTAs route to /contact & /products, all below-hero sections, no "Flying Magnetometer"
+  legacy text, nav + contact + waitlist regressions clean).
+- NOTE: in PREVIEW; production (https://ghost-code-1.emergent.host) needs a REDEPLOY to
+  show the cinemagraph.
+
 ## Notes / Mocked
 - CONTACT FORM IS FRONTEND-ONLY (no submission backend). It does not deliver messages.

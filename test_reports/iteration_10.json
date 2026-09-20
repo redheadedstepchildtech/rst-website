@@ -1,0 +1,22 @@
+{
+  "summary": "Frontend-only regression for the new SkyForge cinematic cinemagraph hero + nav/contact/waitlist regressions. All targeted checks PASS. /skyforge loads (200) and renders: skyforge-cinemagraph, skyforge-live-badge ('SURVEY IN PROGRESS'), skyforge-telemetry, skyforge-signal-count, skyforge-cta-demo, skyforge-back-systems, skyforge-patent-badge, skyforge-cta-contact. The SIGNALS counter increments over ~3s (observed 1247 -> 1255). CTA 'Request a demo' navigates to /contact. 'All systems' navigates to /products. Below-hero sections all render (RASP pillars, propulsion, MgO/QFI, roadmap v1.0-v3.0, founder quote, bottom CTA). No 'Flying Magnetometer' legacy text anywhere in the page HTML. NavBar links Home/Systems/SkyForge/About/Contact all resolve to correct routes. Contact form (/contact) POST /api/contact returns 200 and contact-success testid is shown. Waitlist on Home page opens, accepts email, POST /api/waitlist returns 200, and shows the 'You're on the list' confirmation state.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/tests/frontend_e2e_test.py"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Cinemagraph is purely CSS (Ken Burns + radar sweep + breathing survey glow + rising motes + scroll parallax). No perf issues observed; animations use transform/opacity which is GPU-friendly. Consider prefers-reduced-motion guard if not already present in globals.css to respect a11y.",
+    "SIGNALS counter is driven by setInterval in a client component; ensure the interval is cleared on unmount (component unmount cleanup) to avoid stray timers if user navigates via SPA link."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (frontend only)", "frontend": "100%"},
+  "test_credentials": "None required. Used qa@example.com for contact, qa+wait@example.com for waitlist.",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "iteration_10 verified new SkyForge cinemagraph hero at http://localhost:3000/skyforge. Key testids: skyforge-cinemagraph, skyforge-live-badge, skyforge-telemetry, skyforge-signal-count (increments on interval), skyforge-cta-demo (->/contact), skyforge-back-systems (->/products), skyforge-patent-badge, skyforge-cta-contact. Contact form testids: contact-input-name/email/message, contact-submit, contact-success. Waitlist uses button 'Notify me' opening inline capture; success shows 'You're on the list'. All nav links work via role=link exact-name. No 'Flying Magnetometer' string in DOM."
+}
