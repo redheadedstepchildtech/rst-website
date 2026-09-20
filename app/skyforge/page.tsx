@@ -15,6 +15,7 @@ import {
   BadgeCheck,
   Quote,
 } from "lucide-react";
+import SkyForgeCinemagraph from "../../components/SkyForgeCinemagraph";
 
 export const metadata = {
   title: "SkyForge RASP — Patented Flying-Saucer Sensing Platform | Redheaded Stepchild Tech",
@@ -72,35 +73,14 @@ const roadmap = [
 export default function SkyForgePage() {
   return (
     <div data-testid="skyforge-page">
-      {/* HERO */}
-      <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 opacity-55" style={{ backgroundImage: `url(${IMG.hero})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-void/60 via-void/85 to-void" />
-        <div className="mx-auto max-w-7xl px-6 pb-20 pt-24 md:pt-32">
-          <span className="inline-flex items-center gap-2 rounded-full border border-amber/50 bg-amber/10 px-4 py-1.5 font-mono text-xs text-amber" data-testid="skyforge-patent-badge">
-            <BadgeCheck className="h-4 w-4" /> PATENTED · RUGGED AERIAL SENSING PLATFORM
-          </span>
-          <h1 className="fade-up mt-6 font-display text-6xl font-bold leading-[1.02] tracking-tight text-white md:text-8xl">
-            Sky<span className="text-gradient">Forge</span> <span className="text-3xl text-mist md:text-4xl">RASP</span>
-          </h1>
-          <p className="fade-up mt-6 max-w-2xl text-xl font-semibold leading-relaxed text-white" style={{ animationDelay: "0.12s" }}>
-            A radical departure from conventional drone design.
-          </p>
-          <p className="fade-up mt-4 max-w-2xl text-lg leading-relaxed text-mist" style={{ animationDelay: "0.2s" }}>
-            SkyForge is a next-generation Rugged Aerial Sensing Platform engineered for geophysical
-            mapping, environmental monitoring, and field operations in harsh environments. Unlike
-            fragile quadcopters, it uses a flying-saucer airframe with single-prop or dual
-            counter-rotating propulsion — delivering unmatched stability, efficiency, and ruggedness.
-          </p>
-          <div className="fade-up mt-10 flex flex-col gap-4 sm:flex-row" style={{ animationDelay: "0.32s" }}>
-            <Link href="/contact" className="btn-primary" data-testid="skyforge-cta-demo">
-              <Rocket className="h-5 w-5" /> Request a demo
-            </Link>
-            <Link href="/products" className="btn-ghost" data-testid="skyforge-back-systems">
-              All systems <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
+      {/* HERO — animated cinemagraph */}
+      <SkyForgeCinemagraph imageUrl={IMG.scan} />
+
+      {/* PATENT NOTE */}
+      <section className="mx-auto max-w-7xl px-6 pt-10">
+        <span className="inline-flex items-center gap-2 rounded-full border border-amber/50 bg-amber/10 px-4 py-1.5 font-mono text-xs text-amber" data-testid="skyforge-patent-badge">
+          <BadgeCheck className="h-4 w-4" /> PATENTED · RUGGED AERIAL SENSING PLATFORM
+        </span>
       </section>
 
       {/* NOT A TOY */}
@@ -178,7 +158,7 @@ export default function SkyForgePage() {
 
       {/* QFI PAYLOAD */}
       <section className="relative isolate overflow-hidden py-24">
-        <div className="absolute inset-0 -z-10 opacity-30" style={{ backgroundImage: `url(${IMG.scan})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div className="absolute inset-0 -z-10 opacity-30" style={{ backgroundImage: `url(${IMG.hero})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         <div className="absolute inset-0 -z-10 bg-void/85" />
         <div className="mx-auto max-w-7xl px-6">
           <span className="eyebrow">// the payload</span>
